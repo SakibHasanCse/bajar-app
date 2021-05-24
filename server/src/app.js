@@ -7,12 +7,15 @@ import connectionDb from './db/dbConnect'
 
 
 const app = express()
-app.use(dotenv())
+dotenv.config()
+
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
 
+import Product from './routers/product'
+app.use('/api', Product)
 
 const url = process.env.DB_URL
 connectionDb(url)
