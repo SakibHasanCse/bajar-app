@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const connectionDb = (url) => {
+    console.log('url: ' + url);
     mongoose.connect(url, {
         useCreateIndex: true,
         useFindAndModify: true,
