@@ -1,10 +1,12 @@
 import Product from '../model/product';
+
+
 const productService = {
     createProduct: (req, res) => {
         const productData = req.body
         try {
-            const newProduct = new Product(productData)
-            Product.save(newProduct, (err, product) => {
+
+            Product.create(productData, (err, product) => {
                 if (err) throw err;
                 return res.status(200).json({
                     success: true,
@@ -14,6 +16,9 @@ const productService = {
         } catch (error) {
             throw new Error(`Product not created for " ${productData.title} "`)
         }
+    },
+    allproducts: (req, res) => {
+
     },
     updateProduct: (req, res) => {
 

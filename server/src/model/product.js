@@ -3,11 +3,14 @@ import mongoose from 'mongoose';
 const productSchema = mongoose.Schema({
     title: {
         type: String,
-        required: ['Title is required', true],
+        required: true,
     },
     slug: {
         type: String,
         optional: true
+    },
+    description: {
+        type: String
     },
     price: {
         type: String
