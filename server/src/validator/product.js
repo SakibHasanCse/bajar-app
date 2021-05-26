@@ -1,6 +1,5 @@
 import { body, check } from 'express-validator'
 
-
 export const createProduct = [
     check('title')
         .isLength({ min: 4 })

@@ -27,7 +27,9 @@
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.10"
+    "mongoose": "^5.12.10",
+    "slug": "^5.0.1",
+    "string-strip-html": "^8.3.0"
   },
   "devDependencies": {
     "morgan": "^1.10.0",

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+const { ObjectId } = mongoose.Schema
 const productSchema = mongoose.Schema({
     title: {
         type: String,
@@ -12,15 +12,24 @@ const productSchema = mongoose.Schema({
     description: {
         type: String
     },
+    mdesc: {
+        type: String
+    },
+    mtitle: {
+        type: String
+    },
     price: {
         type: String
     },
     image: {
-        type: String
+        type: Array
     },
-    category: {
-        type: String,
-    },
+    category: [{
+        type: ObjectId,
+        ref: 'category',
+        required: true,
+
+    }],
     size: {
         type: Array,
         optional: true
@@ -31,7 +40,7 @@ const productSchema = mongoose.Schema({
     },
     stock: {
         type: Number,
-        optional: true
+        default: 0
     },
     brand: {
         type: String,
@@ -41,9 +50,10 @@ const productSchema = mongoose.Schema({
         type: String,
         optional: true
     },
-    userId: {
-        type: mongoose.Types.ObjectId,
-        ref: 'user'
+    created: {
+        type: ObjectId,
+        ref: 'user',
+        required: true
     }
 
 }, { timeStamps: true })

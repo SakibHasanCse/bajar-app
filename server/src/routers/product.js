@@ -8,7 +8,7 @@ const router = express.Router()
 
 router.route('/product')
     .post(createProduct, validate, productService.createProduct)
-    .get(productService.allproducts)
+    .get(productService.allProducts)
 
 router.route('/product/:id')
     .put(productService.updateProduct)
