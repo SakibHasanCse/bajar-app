@@ -15,7 +15,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
 
 import Product from './routers/product'
+import User from './routers/user'
 app.use('/api', Product)
+app.use('/api', User)
 
 const url = process.env.DB_URL
 connectionDb(url)
