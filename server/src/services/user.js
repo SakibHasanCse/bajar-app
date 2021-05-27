@@ -1,5 +1,6 @@
 import User from './../model/user'
 import { uid } from 'uid';
+import { createAuthToken } from '../middleware/auth';
 
 
 const userService = {
@@ -46,15 +47,17 @@ const userService = {
                         error: `User not found with this "${email}"`
                     })
                 }
-
                 if (!user.authenticate(password)) {
                     return res.status(400).json({
                         error: "email and password do not match"
                     })
-
                 }
                 user.hashPassword = undefined;
-                return res.status(200).json(user)
+                let token = createAuthToken(user);
+                return res.status(200).json({
+                    token,
+                    user
+                })
             })
 
         } catch (error) {

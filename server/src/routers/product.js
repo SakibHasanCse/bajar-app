@@ -1,4 +1,5 @@
 import express from 'express'
+import { isAuth } from '../middleware/auth'
 import productService from '../services/product'
 import { createProduct } from '../validator/product'
 import { validate } from '../validator/validation'
@@ -7,12 +8,12 @@ import { validate } from '../validator/validation'
 const router = express.Router()
 
 router.route('/product')
-    .post(createProduct, validate, productService.createProduct)
+    .post(isAuth, createProduct, validate, productService.createProduct)
     .get(productService.allProducts)
 
-router.route('/product/:id')
-    .put(productService.updateProduct)
+router.route('/product/:slug')
+    .put(isAuth, productService.updateProduct)
     .get(productService.singleproduct)
-    .delete(productService.deleteProduct)
+    .delete(isAuth, productService.deleteProduct)
 
 export default router

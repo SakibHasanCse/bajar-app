@@ -26,29 +26,27 @@ const productService = {
         product.brand = brand
 
         try {
-
             product.save((err, data) => {
                 if (err) {
                     return res.status(404).json({
                         error: err
                     })
                 }
-
-                // Product.updateOne(
-                //     { _id: product._id },
-                //     { $push: { category: newcategory } },
-                //     { new: true })
-                //     .exec((err, data) => {
-                //         if (err) {
-                //             return res.status(404).json({
-                //                 error: err
-                //             })
-                //         }
-                return res.status(200).json({
-                    success: true,
-                    data
-                })
-                // })
+                Product.updateOne(
+                    { _id: product._id },
+                    { $push: { category: newcategory } },
+                    { new: true })
+                    .exec((err, data) => {
+                        if (err) {
+                            return res.status(404).json({
+                                error: err
+                            })
+                        }
+                        return res.status(200).json({
+                            success: true,
+                            data
+                        })
+                    })
 
             })
         } catch (error) {
@@ -75,13 +73,50 @@ const productService = {
 
     },
     updateProduct: (req, res) => {
+        const { slug } = req.params
+        try {
+            return res.status(200).json({ message: 'Product updated successfully' })
 
+        } catch (error) {
+            return res.status(500).json({ error: "Internal server error" })
+        }
     },
     singleproduct: (req, res) => {
-        res.send("hi")
+        const { slug } = req.params
+        try {
+            Product.findOne({ slug }).exec((err, product) => {
+                if (err || !product) {
+                    return res.status(400).json({ error: 'Product not found' })
+                }
+                res.status(200).json(product)
+            })
+
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json({ error: "Internal server error" })
+        }
     },
     deleteProduct: (req, res) => {
+        const { slug } = req.params
+        console.log(slug)
+        try {
+            Product.findOne({ slug }).exec((err, product) => {
+                if (err || !product) {
+                    return res.status(400).json({ error: 'Product not found' })
+                }
+                Product.deleteOne({ slug }).exec((err) => {
+                    if (err) {
+                        return res.status(400).json({ error: 'Product deleted field' })
+                    }
+                    res.status(200).json({ message: "Product delete successfully" })
+                })
 
+            })
+
+        } catch (error) {
+            console.log(error)
+            return res.status(500).json({ error: "Internal server error" })
+        }
     }
 
 
