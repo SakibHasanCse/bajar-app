@@ -1,5 +1,5 @@
 import User from './../model/user'
-import uid from 'uid';
+import { uid } from 'uid';
 
 
 const userService = {
@@ -36,6 +36,30 @@ const userService = {
             })
         }
 
+    },
+    loginUser: (req, res) => {
+        const { email, password } = req.body
+        try {
+            User.findOne({ email: email }).exec((err, user) => {
+                if (err || !user) {
+                    return res.status(400).json({
+                        error: `User not found with this "${email}"`
+                    })
+                }
+
+                if (!user.authenticate(password)) {
+                    return res.status(400).json({
+                        error: "email and password do not match"
+                    })
+
+                }
+                user.hashPassword = undefined;
+                return res.status(200).json(user)
+            })
+
+        } catch (error) {
+
+        }
     }
 }
 

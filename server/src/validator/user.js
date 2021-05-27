@@ -12,3 +12,12 @@ export const createUser = [
         .withMessage('Password must be strong'),
 
 ]
+
+export const signinUser = [
+    check('email')
+        .isEmail()
+        .withMessage('Email must be valid email address'),
+    check('password')
+        .isStrongPassword()
+        .withMessage('Password must be strong')
+]
