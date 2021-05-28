@@ -104,7 +104,8 @@ const productService = {
                 if (err || !product) {
                     return res.status(400).json({ error: 'Product not found' })
                 }
-                Product.deleteOne({ slug }).exec((err) => {
+                Product.deleteOne({ slug }).exec((err, data) => {
+                    console.log("data", data)
                     if (err) {
                         return res.status(400).json({ error: 'Product deleted field' })
                     }
