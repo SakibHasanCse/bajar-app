@@ -6,9 +6,16 @@ import { ObjectId } from 'mongodb'
 const productService = {
 
     createProduct: (req, res) => {
-        const { title, description, price, image, category, size, color, stock, brand, sku, createdBy } = req.body,
-            product = new Product(),
-            newcategory = category && category.split(',');
+        let { title, description, price, category, size, color, stock, brand, sku, createdBy } = req.body,
+            images = [],
+            product = new Product();
+
+        if (req.files.length > 0) {
+            images = req.files.map(file => {
+                return { img: file.filename }
+            })
+        }
+
 
         product.title = title
         product.slug = slug(title)
@@ -16,15 +23,16 @@ const productService = {
         product.description = description
         product.mdesc = stripHtml(description.substring(0, 160)).result
         product.price = price
-        product.image = image && image.split(',')
+        product.image = images
         product.size = size && size.split(',')
         product.color = color && color.split(',')
         product.sku = sku;
-        product.category = newcategory;
+        product.category = category;
         product.stock = parseInt(stock)
         product.brand = brand;
-        if (ObjectId.isValid(createdBy)) product.created = createdBy;
-        else return res.status(404).json({ error: "createdBy is not a valid" })
+
+        if (ObjectId.isValid(createdBy)) product.createdBy = createdBy;
+        else return res.status(404).json({ error: "createdBy is not a valid id" })
 
         try {
             product.save((err, data) => {
@@ -33,21 +41,11 @@ const productService = {
                         error: err
                     })
                 }
-                Product.updateOne(
-                    { _id: product._id },
-                    { $push: { category: newcategory } },
-                    { new: true })
-                    .exec((err, data) => {
-                        if (err) {
-                            return res.status(404).json({
-                                error: err
-                            })
-                        }
-                        return res.status(200).json({
-                            success: true,
-                            data
-                        })
-                    })
+                return res.status(200).json({
+                    success: true,
+                    data
+                })
+
 
             })
         } catch (error) {

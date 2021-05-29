@@ -1,11 +1,11 @@
 import Category from '../../model/category'
 import slugify from 'slug'
 import { ObjectId } from 'mongodb'
-import { createCategoryList } from './middleware';
+import { createCategoryList } from './helper';
 
 const categoryService = {
     createCategory: (req, res) => {
-        const { name, image, parentId } = req.body,
+        const { name, parentId } = req.body,
             slug = slugify(name);
         try {
             Category.findOne({ slug: slug }).exec((err, data) => {
@@ -14,9 +14,9 @@ const categoryService = {
                 }
                 const newCategory = new Category({
                     name,
-                    slug,
-                    image
+                    slug
                 })
+                if (req.file) newCategory.image = `${process.env.SERVER_URL}/public/${req.file.filename}`
                 if (ObjectId.isValid(parentId)) newCategory.parentId = parentId;
 
                 newCategory.save((err, category) => {

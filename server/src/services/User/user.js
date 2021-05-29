@@ -53,7 +53,8 @@ const userService = {
                     })
                 }
                 user.hashPassword = undefined;
-                let token = createAuthToken(user);
+                const { _id, email, name, role } = user
+                let token = createAuthToken({ _id, email, name, role });
                 return res.status(200).json({
                     token,
                     user
