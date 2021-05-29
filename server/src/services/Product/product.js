@@ -1,12 +1,12 @@
-import Product from '../model/product';
+import Product from '../../model/product';
 import slug from 'slug';
 import { stripHtml } from 'string-strip-html'
-import mongoose from 'mongoose';
+import { ObjectId } from 'mongodb'
 
 const productService = {
 
     createProduct: (req, res) => {
-        const { title, description, price, image, category, size, color, stock, brand, sku, created } = req.body,
+        const { title, description, price, image, category, size, color, stock, brand, sku, createdBy } = req.body,
             product = new Product(),
             newcategory = category && category.split(',');
 
@@ -19,11 +19,12 @@ const productService = {
         product.image = image && image.split(',')
         product.size = size && size.split(',')
         product.color = color && color.split(',')
-        product.sku = sku
-        product.category = newcategory
-        product.created = mongoose.Types.ObjectId(created)
+        product.sku = sku;
+        product.category = newcategory;
         product.stock = parseInt(stock)
-        product.brand = brand
+        product.brand = brand;
+        if (ObjectId.isValid(createdBy)) product.created = createdBy;
+        else return res.status(404).json({ error: "createdBy is not a valid" })
 
         try {
             product.save((err, data) => {

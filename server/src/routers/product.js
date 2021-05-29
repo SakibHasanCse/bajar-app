@@ -1,6 +1,6 @@
 import express from 'express'
 import { isAuth } from '../middleware/auth'
-import productService from '../services/product'
+import productService from '../services/Product/product'
 import { createProduct } from '../validator/product'
 import { validate } from '../validator/validation'
 

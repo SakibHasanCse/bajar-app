@@ -16,8 +16,10 @@ app.use(cors())
 
 import Product from './routers/product'
 import User from './routers/user'
+import Category from './routers/category'
 app.use('/api', Product)
 app.use('/api', User)
+app.use('/api', Category)
 
 const url = process.env.DB_URL
 connectionDb(url)

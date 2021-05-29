@@ -4,13 +4,17 @@ const productSchema = mongoose.Schema({
     title: {
         type: String,
         required: true,
+        trim: true
     },
     slug: {
         type: String,
-        optional: true
+        optional: true,
+        unique: true
     },
     description: {
-        type: String
+        type: String,
+        trim: true,
+        required: true
     },
     mdesc: {
         type: String
@@ -19,17 +23,18 @@ const productSchema = mongoose.Schema({
         type: String
     },
     price: {
-        type: String
+        type: Number
     },
-    image: {
-        type: Array
-    },
-    category: [{
+    image: [
+        { img: { type: String } }
+    ],
+
+    category: {
         type: ObjectId,
-        ref: 'category',
+        ref: 'Category',
         required: true,
 
-    }],
+    },
     size: {
         type: Array,
         optional: true
@@ -46,11 +51,20 @@ const productSchema = mongoose.Schema({
         type: String,
         optional: true
     },
+    offer: {
+        type: Number,
+    },
     sku: {
         type: String,
         optional: true
     },
-    created: {
+    reviews: [
+        {
+            review: String,
+            userId: { type: ObjectId, ref: 'User' }
+        }
+    ],
+    createdBy: {
         type: ObjectId,
         ref: 'user',
         required: true

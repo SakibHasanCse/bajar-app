@@ -1,24 +1,33 @@
-import Category from './../model/category'
-import slug from 'slug'
+import Category from '../../model/category'
+import slugify from 'slug'
+import { ObjectId } from 'mongodb'
+import { createCategoryList } from './middleware';
 
 const categoryService = {
     createCategory: (req, res) => {
-        const { name, image } = req.body
+        const { name, image, parentId } = req.body,
+            slug = slugify(name);
         try {
-            const slug = slug(name);
-            const newCategory = new Category({
-                name,
-                slug,
-                image
-            })
-            newCategory.save((err, category) => {
-                if (err) {
-                    return res.status(404).json({ error: err })
+            Category.findOne({ slug: slug }).exec((err, data) => {
+                if (err || data) {
+                    return res.status(400).json({ error: 'Category Already Exists ,Try agin' })
                 }
-                return res.status(201).json(category)
-            })
-        } catch (err) {
+                const newCategory = new Category({
+                    name,
+                    slug,
+                    image
+                })
+                if (ObjectId.isValid(parentId)) newCategory.parentId = parentId;
 
+                newCategory.save((err, category) => {
+                    if (err) {
+                        return res.status(404).json({ error: err })
+                    }
+                    return res.status(201).json(category)
+                })
+            })
+
+        } catch (err) {
             return res.status(500).json({
                 error: err
             })
@@ -27,11 +36,13 @@ const categoryService = {
     },
     allCategory: (req, res) => {
         try {
-            Category.find().then((category) => {
-                return res.status(200).json(category)
-            }).catch((err) => {
-                return res.status(400).json({ error: err })
-            })
+            Category.find()
+                .then((category) => {
+                    let categoryList = createCategoryList(category)
+                    return res.status(200).json({ categoryList })
+                }).catch((err) => {
+                    return res.status(400).json({ error: err })
+                })
 
         } catch (error) {
             return res.status(400).json({ error })

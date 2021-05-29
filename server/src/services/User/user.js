@@ -1,6 +1,6 @@
-import User from './../model/user'
+import User from '../../model/user'
 import { uid } from 'uid';
-import { createAuthToken } from '../middleware/auth';
+import { createAuthToken } from '../../middleware/auth';
 
 
 const userService = {

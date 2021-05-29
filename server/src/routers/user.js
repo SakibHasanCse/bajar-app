@@ -1,5 +1,5 @@
 import express from 'express'
-import userService from '../services/user'
+import userService from '../services/User/user'
 import { createUser, signinUser } from '../validator/user'
 import { validate } from '../validator/validation'
 
