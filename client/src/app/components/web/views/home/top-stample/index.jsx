@@ -11,13 +11,13 @@ class Topstample extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            productlist: [],isloaded:false
+            productlist: [], isloaded: false
         }
     }
     async componentDidMount() {
         let list = await GroceryStampleDetails.getAllGroceryStaple();
-        if(list){
-            this.setState({ productlist: list.data, isloaded:true })
+        if (list) {
+            this.setState({ productlist: list.data, isloaded: true })
         }
     }
     render() {
@@ -80,7 +80,7 @@ class Topstample extends Component {
                             </h5>
                         </div>
                         <Slider {...settings}>
-                            {!this.state.isloaded ?<div className="progress-bar-bk"><CircularProgress color="secondary" /></div>:
+                            {!this.state.isloaded ? <div className="progress-bar-bk"><CircularProgress color="secondary" /></div> :
                                 list.map((row, index) => (
                                     <div key={index} className="item">
                                         <div className="product">
@@ -100,8 +100,13 @@ class Topstample extends Component {
                                                 </div>
                                             </Link>
                                             <div className="product-footer">
-                                                <button type="button" className="btn btn-secondary btn-sm float-right" onClick={() => this.props.addToCart(row)}><i className="mdi mdi-cart-outline" /> Add To Cart</button>
-                                                <p className="offer-price mb-0">&#x20B9;{row.price} <i className="mdi mdi-tag-outline" /><br /><span className="regular-price">&#x20B9;{row.netPrice}</span></p>
+                                                <button type="button" className="btn btn-secondary btn-sm float-right"
+                                                    onClick={() => this.props.addToCart(row)}>
+                                                    <i className="mdi mdi-cart-outline" /> Add To Cart</button>
+                                                <p className="offer-price mb-0">&#x20B9;{row.price}
+                                                    <i className="mdi mdi-tag-outline" />
+                                                    <br />
+                                                    <span className="regular-price">&#x20B9;{row.netPrice}</span></p>
                                             </div>
                                         </div>
                                     </div>

@@ -20,7 +20,7 @@ class Singleproduct extends Component {
         this.setState({ product: list.data })
     }
     render() {
-        const{ product } = this.state;
+        const { product } = this.state;
         const settings = {
             customPaging: function (i) {
                 return (
@@ -44,7 +44,15 @@ class Singleproduct extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12">
-                                <a href="#"><strong><span className="mdi mdi-home" /> Home</strong></a> <span className="mdi mdi-chevron-right" /> <a href="#">Fruits &amp; Vegetables</a> <span className="mdi mdi-chevron-right" /> <a href="#">Fruits</a>
+                                <a href="#">
+                                    <strong>
+                                        <span className="mdi mdi-home" />
+                                        Home</strong>
+                                </a>
+                                <span className="mdi mdi-chevron-right" />
+                                <a href="#">Fruits &amp; Vegetables</a>
+                                <span className="mdi mdi-chevron-right" />
+                                <a href="#">Fruits</a>
                             </div>
                         </div>
                     </div>
